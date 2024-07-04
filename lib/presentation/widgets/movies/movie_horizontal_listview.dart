@@ -1,9 +1,9 @@
 import 'package:cine_tfg_app/config/helpers/human_format.dart';
 import 'package:cine_tfg_app/domain/entities/movie.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
-import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
+
 
 class MovieHorizontalListview extends StatefulWidget {
 
@@ -61,7 +61,7 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
             child: ListView.builder(
               controller: scrollController,
               itemBuilder: (context, index) {
-                return _Slide(movie: widget.movies[index]);
+                return FadeInRight(child: _Slide(movie: widget.movies[index]));
               },
               itemCount: widget.movies.length,
               scrollDirection: Axis.horizontal,
@@ -142,7 +142,10 @@ const _Slide({required this.movie });
                     child: Center(child: CircularProgressIndicator(strokeWidth: 2))
                     );
                   }
-                    return FadeIn(child: child);
+                  return GestureDetector(
+                    onTap: () => context.push('/movie/${movie.id}'),
+                    child: FadeIn(child: child),
+                  );
                 },
               ),
             ),

@@ -33,64 +33,87 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
     ref.read(popularMoviesProvider.notifier).loadNextPage();
     ref.read(topRatedMoviesProvider.notifier).loadNextPage();
+    ref.read(upcomingMoviesProvider.notifier).loadNextPage();
+    
   }
 
   @override
   Widget build(BuildContext context) {
 
+    final initialLoading = ref.watch(initialLoadingProvider);
+
+    if(initialLoading) return const FullScreenLoader();
+
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final popularMovies = ref.watch(popularMoviesProvider);
     final slideShowMovies = ref.watch(moviesSlideshowProvider);
     final topRatedMovies = ref.watch(topRatedMoviesProvider);
+    final upcomingMovies = ref.watch(upcomingMoviesProvider);
 
-
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          floating: true,
-          flexibleSpace: FlexibleSpaceBar(
-            title: CustomAppbar(),
+    return Visibility(
+      visible: !initialLoading,
+      child: CustomScrollView(
+        slivers: [
+          const SliverAppBar(
+        floating: true,
+        expandedHeight: 10.0, // Ajusta esto según tus necesidades
+        flexibleSpace: FlexibleSpaceBar(
+          background: SizedBox(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: CustomAppbar(),
+            ),
           ),
         ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-            return Column(
-        children: [
-          MoviesSlideShow(movies: slideShowMovies),
-          MovieHorizontalListview(
-            movies: nowPlayingMovies,
-            title: 'En cines',
-            subTitle: 'Domingo 5',
-            loadNextPage: () {
-              ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
-            }
-          ),
-          MovieHorizontalListview(
-            movies: popularMovies,
-            title: 'Populares',
-            //subTitle: 'Domingo 5',
-            loadNextPage: () {
-              ref.read(popularMoviesProvider.notifier).loadNextPage();
-            }
-          ),
-          MovieHorizontalListview(
-            movies: topRatedMovies,
-            title: 'Mejor calificadas',
-            //subTitle: 'Domingo 5',
-            loadNextPage: () {
-              ref.read(topRatedMoviesProvider.notifier).loadNextPage();
-            }
-          ),
-          const SizedBox(height: 10),
-        ],
-      );
-          },
-          childCount: 1
-        )),
-      ]
-      
-      
+      ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+              return Column(
+          children: [
+            MoviesSlideShow(movies: slideShowMovies),
+            MovieHorizontalListview(
+              movies: nowPlayingMovies,
+              title: 'En cines',
+              subTitle: 'Domingo 5',
+              loadNextPage: () {
+                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+              }
+            ),
+            MovieHorizontalListview(
+              movies: upcomingMovies,
+              title: 'Proximamente',
+              //subTitle: 'Domingo 5',
+              loadNextPage: () {
+                ref.read(upcomingMoviesProvider.notifier).loadNextPage();
+              }
+            ),
+            MovieHorizontalListview(
+              movies: popularMovies,
+              title: 'Populares',
+              //subTitle: 'Domingo 5',
+              loadNextPage: () {
+                ref.read(popularMoviesProvider.notifier).loadNextPage();
+              }
+            ),
+            MovieHorizontalListview(
+              movies: topRatedMovies,
+              title: 'Mejor calificadas',
+              //subTitle: 'Domingo 5',
+              loadNextPage: () {
+                ref.read(topRatedMoviesProvider.notifier).loadNextPage();
+              }
+            ),
+            const SizedBox(height: 10),
+          ],
+        );
+            },
+            childCount: 1
+          )),
+        ]
+        
+        
+      ),
     );
   }
 }

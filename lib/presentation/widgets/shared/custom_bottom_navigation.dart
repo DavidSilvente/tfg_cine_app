@@ -6,7 +6,8 @@ const CustomBottomNavigation({ Key? key }) : super(key: key);
   @override
   Widget build(BuildContext context){
     return BottomNavigationBar(
-      items: [BottomNavigationBarItem(
+      elevation: 0,
+      items: const [BottomNavigationBarItem(
         icon: Icon(Icons.home_max),
         label: 'Inicio'
       ),
