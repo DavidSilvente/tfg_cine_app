@@ -5,7 +5,7 @@ import 'package:cine_tfg_app/infrastructure/models/moviedb/moviedb_movie.dart';
 class MovieDbResponse {
     final Dates? dates;
     final int page;
-    final List<MovieDBMovie> results;
+    final List<MovieMovieDB> results;
     final int totalPages;
     final int totalResults;
 
@@ -24,7 +24,7 @@ class MovieDbResponse {
     factory MovieDbResponse.fromJson(Map<String, dynamic> json) => MovieDbResponse(
         dates: json["dates"] != null ? Dates.fromJson(json["dates"]): null,
         page: json["page"],
-        results: List<MovieDBMovie>.from(json["results"].map((x) => MovieDBMovie.fromJson(x))),
+        results: List<MovieMovieDB>.from(json["results"].map((x) => MovieMovieDB.fromJson(x))),
         totalPages: json["total_pages"],
         totalResults: json["total_results"],
     );
