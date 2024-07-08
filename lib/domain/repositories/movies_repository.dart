@@ -1,4 +1,4 @@
-import 'package:cine_tfg_app/domain/entities/movie.dart';
+import 'package:cine_tfg_app/domain/entities/entities.dart';
 
 abstract class MoviesRepository {
   Future<List<Movie>> getNowPlaying({int page = 1});
@@ -7,5 +7,7 @@ abstract class MoviesRepository {
   Future<List<Movie>> getUpcoming({int page = 1});
   Future<Movie> getMovieById(String id);
   Future<List<Movie>> searchMovies(String query);
+  Future<List<Movie>> getSimilarMovies(int movieId);
+  Future<List<Video>> getYoutubeVideosById(int movieId);  
 
 }
