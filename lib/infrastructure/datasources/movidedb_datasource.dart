@@ -1,12 +1,8 @@
 import 'package:cine_tfg_app/config/constants/environment.dart';
 import 'package:cine_tfg_app/domain/datasources/movies_datasource.dart';
 import 'package:cine_tfg_app/domain/entities/entities.dart';
-import 'package:cine_tfg_app/domain/entities/movie.dart';
 import 'package:cine_tfg_app/infrastructure/mappers/mappers.dart';
-import 'package:cine_tfg_app/infrastructure/mappers/movie_mapper.dart';
 import 'package:cine_tfg_app/infrastructure/models/models.dart';
-import 'package:cine_tfg_app/infrastructure/models/moviedb/movie_details.dart';
-import 'package:cine_tfg_app/infrastructure/models/moviedb/moviedb_response.dart';
 import 'package:dio/dio.dart';
 
 

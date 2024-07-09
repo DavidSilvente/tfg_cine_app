@@ -236,7 +236,7 @@ class _CustomSliverAppBar extends ConsumerWidget {
         IconButton(onPressed: () {
 
         },
-        icon: Icon(Icons.bookmark_border))
+        icon: const Icon(Icons.bookmark_border))
       ],
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.only(bottom: 0),
@@ -266,7 +266,7 @@ class _CustomSliverAppBar extends ConsumerWidget {
 
             const _CustomGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, stops: [0.0, 0.2], colors: [Colors.black54,Colors.transparent]),
             const _CustomGradient(begin: Alignment.topLeft, stops: [0.0, 0.3], colors: [Colors.black87,Colors.transparent]),
-            _CustomGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, stops: [0.7, 1.0], colors: [Colors.transparent, scaffoldBackgroundColor]),
+            _CustomGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, stops: const [0.7, 1.0], colors: [Colors.transparent, scaffoldBackgroundColor]),
 
           ],
         ),
