@@ -10,11 +10,11 @@ final movieInfoProvider = StateNotifierProvider<MovieMapNotifier, Map<String,Mov
 });
 
 
-typedef GetMovieCallvack = Future<Movie>Function(String movieId);
+typedef GetMovieCallback = Future<Movie>Function(String movieId);
 
 class MovieMapNotifier extends StateNotifier<Map<String, Movie>> {
 
-  final GetMovieCallvack getMovie;
+  final GetMovieCallback getMovie;
   MovieMapNotifier({
     required this.getMovie,
   }): super({});
