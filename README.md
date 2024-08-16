@@ -1,5 +1,5 @@
 # Filmbuster
-![Imagen del proyecto](https://github.com/DavidSilvente/Crystalite/blob/main/media/laboratorio.jpg?raw=true)
+![Imagen del proyecto](https://github.com/DavidSilvente/assets/blob/main/filmbuster.jpg?raw=true)
 
 ## Descripción 📑
 
