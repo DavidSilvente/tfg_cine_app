@@ -46,8 +46,8 @@ class MovieRepositoryImpl extends MoviesRepository {
   }
   
   @override
-  Future<List<Video>> getYoutubeVideosById(int movieId) {
-    return moviesDatasource.getYoutubeVideosById(movieId);
+  Future<List<Movie>> getMoviesInSpain({int page = 1}) {
+    return moviesDatasource.getMoviesInSpain(page: page);
   }
   
   

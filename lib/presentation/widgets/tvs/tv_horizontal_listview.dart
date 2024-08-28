@@ -1,28 +1,27 @@
-import 'package:cine_tfg_app/config/helpers/human_format.dart';
-import 'package:cine_tfg_app/domain/entities/movie.dart';
+import 'package:cine_tfg_app/domain/entities/tv.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:go_router/go_router.dart';
 
 
-class MovieHorizontalListview extends StatefulWidget {
+class TvHorizontalListview extends StatefulWidget {
 
-  final List<Movie> movies;
+  final List<Tv> tvs;
   final String? title;
-  final String? subTitle;
+
   final VoidCallback? loadNextPage;
 
-const MovieHorizontalListview({
+const TvHorizontalListview({
   super.key,
-  required this.movies,
-  this.title, this.subTitle,
+  required this.tvs,
+  this.title,
   this.loadNextPage });
 
   @override
-  State<MovieHorizontalListview> createState() => _MovieHorizontalListviewState();
+  State<TvHorizontalListview> createState() => _TvHorizontalListviewState();
 }
 
-class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
+class _TvHorizontalListviewState extends State<TvHorizontalListview> {
 
   final scrollController = ScrollController();
 
@@ -61,9 +60,9 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
             child: ListView.builder(
               controller: scrollController,
               itemBuilder: (context, index) {
-                return FadeInRight(child: _Slide(movie: widget.movies[index]));
+                return FadeInRight(child: _Slide(tv: widget.tvs[index]));
               },
-              itemCount: widget.movies.length,
+              itemCount: widget.tvs.length,
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
             )
@@ -105,9 +104,9 @@ class _Title extends StatelessWidget {
 
 class _Slide extends StatelessWidget {
 
-  final Movie movie;
+  final Tv tv;
 
-const _Slide({required this.movie });
+const _Slide({required this.tv });
 
   @override
   Widget build(BuildContext context){
@@ -122,12 +121,12 @@ const _Slide({required this.movie });
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: GestureDetector(
-                onTap: () => context.push('/home/0/movie/${ movie.id }'),
+                onTap: () => context.push('/home/0/movie/${ tv.id }'),
                 child: FadeInImage(
                   height: 220,
                   fit: BoxFit.cover,
                   placeholder: const AssetImage('assets/loaders/bottle-loader.gif'), 
-                  image: NetworkImage(movie.posterPath)
+                  image: NetworkImage(tv.posterPath)
                 ),
               ),
             ),

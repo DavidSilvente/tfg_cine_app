@@ -32,6 +32,13 @@ final upcomingMoviesProvider = StateNotifierProvider<MoviesNotifier,List<Movie>>
   );
 });
 
+final moviesOfActionInSpainProvider = StateNotifierProvider<MoviesNotifier,List<Movie>>((ref) {
+  final fetchMoreMovies = ref.watch(movieRepositoryProvider).getMoviesInSpain;
+  return MoviesNotifier(
+    fetchMoreMovies: fetchMoreMovies
+  );
+});
+
 
 typedef MovieCallback = Future<List<Movie>> Function({int page});
 

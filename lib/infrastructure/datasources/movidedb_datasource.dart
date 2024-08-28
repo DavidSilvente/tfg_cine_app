@@ -27,12 +27,14 @@ class MovieDbDataSource extends MoviesDatasource {
   @override
   Future<List<Movie>> getNowPlaying({int page = 1}) async {
     
-    final response = await dio.get("/movie/now_playing",
+    final response = await dio.get("/discover/movie",
     queryParameters: {
-      'page': page
+      'page': page,
+      'region': 'ES',
+      'with_release_type': '3', // 3 representa "lanzamiento en cines"
     });
 
-    return _jsonToMovies(response.data);
+  return _jsonToMovies(response.data);
 
 
   }
@@ -49,9 +51,13 @@ class MovieDbDataSource extends MoviesDatasource {
 
   @override
   Future<List<Movie>> getTopRated({int page = 1}) async{
-    final response = await dio.get("/movie/top_rated",
+    final response = await dio.get("/discover/movie",
     queryParameters: {
-      'page': page
+      'page': page,
+      'watch_region': 'ES',
+      'with_watch_providers': '8|9|337|384|350|35',
+      'sort_by': 'vote_average.desc', // Ordenar por calificación
+      'vote_count.gte': 1000, // Filtrar por un mínimo de votos
     });
 
     return _jsonToMovies(response.data);
@@ -62,7 +68,8 @@ class MovieDbDataSource extends MoviesDatasource {
     
     final response = await dio.get("/movie/upcoming",
     queryParameters: {
-      'page': page
+      'page': page,
+      'region': 'ES'
     });
 
     return _jsonToMovies(response.data);
@@ -102,19 +109,18 @@ class MovieDbDataSource extends MoviesDatasource {
   }
   
   @override
-  Future<List<Video>> getYoutubeVideosById(int movieId) async{
-    final response = await dio.get('/movie/$movieId/videos');
-    final moviedbVideosResponse = MoviedbVideosResponse.fromJson(response.data);
-    final videos = <Video>[];
-  
-    for(final moviedbVideo in moviedbVideosResponse.results) {
-      if (moviedbVideo.site == 'Youtube') {
-        final video = VideoMapper.moviedbVideoToEntity(moviedbVideo);
-        videos.add(video);
-      }
-    }
-    return videos;
-  }
+Future<List<Movie>> getMoviesInSpain({int page = 1, int genre = 28, double minVote = 7.5}) async {
+  final response = await dio.get("/discover/movie",
+    queryParameters: {
+      'page': page,
+      'watch_region': 'ES',
+      'with_watch_providers': '8|9|337|384|350|35',
+      'with_genres': genre,
+      'vote_average.gte': minVote, // Calificación mínima
+    });
+
+  return _jsonToMovies(response.data);
+}
   
   
 }

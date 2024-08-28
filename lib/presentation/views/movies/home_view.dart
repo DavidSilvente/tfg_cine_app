@@ -1,4 +1,7 @@
 import 'package:cine_tfg_app/presentation/providers/providers.dart';
+import 'package:cine_tfg_app/presentation/providers/tv/tv_provider.dart';
+import 'package:cine_tfg_app/presentation/providers/tv/tv_repository_provider.dart';
+import 'package:cine_tfg_app/presentation/widgets/tvs/tv_horizontal_listview.dart';
 import 'package:cine_tfg_app/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,6 +26,9 @@ class HomeViewState extends ConsumerState<HomeView> {
     ref.read( popularMoviesProvider.notifier ).loadNextPage();
     ref.read( topRatedMoviesProvider.notifier ).loadNextPage();
     ref.read( upcomingMoviesProvider.notifier ).loadNextPage();
+    ref.read( moviesOfActionInSpainProvider.notifier).loadNextPage();
+    ref.read( airingTodayProvider.notifier).loadNextPage();
+    ref.read(serieFinDeSemanaProvider.notifier).loadNextPage();
   }
 
 
@@ -36,6 +42,9 @@ class HomeViewState extends ConsumerState<HomeView> {
     final nowPlayingMovies = ref.watch( nowPlayingMoviesProvider );
     final topRatedMovies = ref.watch( topRatedMoviesProvider );
     final upcomingMovies = ref.watch( upcomingMoviesProvider );
+    final moviesOfAction = ref.watch(moviesOfActionInSpainProvider);
+    final airingToday = ref.watch(airingTodayProvider);
+    final serieFinDeSemana = ref.watch(serieFinDeSemanaProvider);
 
     return Visibility(
       visible: !initialLoading,
@@ -43,7 +52,7 @@ class HomeViewState extends ConsumerState<HomeView> {
         slivers: [
           const SliverAppBar(
         floating: true,
-        expandedHeight: 10.0, // Ajusta esto según tus necesidades
+        expandedHeight: 10.0,
         flexibleSpace: FlexibleSpaceBar(
           background: SizedBox(
             child: Align(
@@ -62,7 +71,6 @@ class HomeViewState extends ConsumerState<HomeView> {
             MovieHorizontalListview(
               movies: nowPlayingMovies,
               title: 'En cines',
-              subTitle: 'Domingo 5',
               loadNextPage: () {
                 ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
               }
@@ -70,7 +78,7 @@ class HomeViewState extends ConsumerState<HomeView> {
             MovieHorizontalListview(
               movies: upcomingMovies,
               title: 'Proximamente',
-              //subTitle: 'Domingo 5',
+
               loadNextPage: () {
                 ref.read(upcomingMoviesProvider.notifier).loadNextPage();
               }
@@ -78,11 +86,36 @@ class HomeViewState extends ConsumerState<HomeView> {
             MovieHorizontalListview(
               movies: topRatedMovies,
               title: 'Mejor calificadas',
-              //subTitle: 'Domingo 5',
+
               loadNextPage: () {
                 ref.read(topRatedMoviesProvider.notifier).loadNextPage();
               }
             ),
+            MovieHorizontalListview(
+              movies: moviesOfAction,
+              title: 'Peliculas de Acción',
+
+              loadNextPage: () {
+                ref.read(moviesOfActionInSpainProvider.notifier).loadNextPage();
+              }
+            ),
+            TvHorizontalListview(
+              tvs: airingToday,
+              title: 'Peliculas de Acción',
+
+              loadNextPage: () {
+                ref.read(airingTodayProvider.notifier).loadNextPage();
+              }
+            ),
+            TvHorizontalListview(
+              tvs: serieFinDeSemana,
+              title: 'Peliculas de Acción',
+
+              loadNextPage: () {
+                ref.read(serieFinDeSemanaProvider.notifier).loadNextPage();
+              }
+            ),
+            
             const SizedBox(height: 10),
           ],
         );
