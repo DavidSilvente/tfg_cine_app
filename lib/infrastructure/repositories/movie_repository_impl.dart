@@ -50,6 +50,14 @@ class MovieRepositoryImpl extends MoviesRepository {
     return moviesDatasource.getMoviesInSpain(page: page);
   }
   
-  
+  @override
+  Future<List<Movie>> getDecadaDeLos90({int page = 1}) {
+    return moviesDatasource.getDecadaDeLos90(page: page);
+  }
+
+  @override
+  Future<List<Movie>> getDecadaDeLos80({int page = 1}) {
+    return moviesDatasource.getDecadaDeLos80(page: page);
+  }
 
 }

@@ -9,5 +9,7 @@ abstract class MoviesRepository {
   Future<List<Movie>> searchMovies(String query);
   Future<List<Movie>> getSimilarMovies(int movieId);
   Future<List<Movie>> getMoviesInSpain({int page = 1});
+  Future<List<Movie>> getDecadaDeLos90({int page = 1});
+  Future<List<Movie>> getDecadaDeLos80({int page = 1});
 
 }

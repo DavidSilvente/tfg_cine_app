@@ -1,6 +1,5 @@
 import 'package:cine_tfg_app/presentation/providers/providers.dart';
 import 'package:cine_tfg_app/presentation/providers/tv/tv_provider.dart';
-import 'package:cine_tfg_app/presentation/providers/tv/tv_repository_provider.dart';
 import 'package:cine_tfg_app/presentation/widgets/tvs/tv_horizontal_listview.dart';
 import 'package:cine_tfg_app/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +26,10 @@ class HomeViewState extends ConsumerState<HomeView> {
     ref.read( topRatedMoviesProvider.notifier ).loadNextPage();
     ref.read( upcomingMoviesProvider.notifier ).loadNextPage();
     ref.read( moviesOfActionInSpainProvider.notifier).loadNextPage();
+    ref.read(getDecadaDeLos90Provider.notifier).loadNextPage();
     ref.read( airingTodayProvider.notifier).loadNextPage();
-    ref.read(serieFinDeSemanaProvider.notifier).loadNextPage();
+    ref.read( serieFinDeSemanaProvider.notifier).loadNextPage();
+    ref.read(getDecadaDeLos80Provider.notifier).loadNextPage();
   }
 
 
@@ -43,8 +44,11 @@ class HomeViewState extends ConsumerState<HomeView> {
     final topRatedMovies = ref.watch( topRatedMoviesProvider );
     final upcomingMovies = ref.watch( upcomingMoviesProvider );
     final moviesOfAction = ref.watch(moviesOfActionInSpainProvider);
+    final decadaDeLos90 = ref.watch(getDecadaDeLos90Provider);
+    final decadaDeLos80 = ref.watch(getDecadaDeLos80Provider);
     final airingToday = ref.watch(airingTodayProvider);
     final serieFinDeSemana = ref.watch(serieFinDeSemanaProvider);
+
 
     return Visibility(
       visible: !initialLoading,
@@ -97,6 +101,22 @@ class HomeViewState extends ConsumerState<HomeView> {
 
               loadNextPage: () {
                 ref.read(moviesOfActionInSpainProvider.notifier).loadNextPage();
+              }
+            ),
+            MovieHorizontalListview(
+              movies: decadaDeLos90,
+              title: 'Decada de los 90',
+
+              loadNextPage: () {
+                ref.read(getDecadaDeLos90Provider.notifier).loadNextPage();
+              }
+            ),
+            MovieHorizontalListview(
+              movies: decadaDeLos80,
+              title: 'Decada de los 80',
+
+              loadNextPage: () {
+                ref.read(getDecadaDeLos80Provider.notifier).loadNextPage();
               }
             ),
             TvHorizontalListview(
