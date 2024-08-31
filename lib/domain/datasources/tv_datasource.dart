@@ -8,4 +8,5 @@ abstract class TvDatasource {
   Future<List<Tv>> getPopular({int page = 1});
   Future<List<Tv>> getTopRated({int page = 1});
   Future<List<Tv>> serieFinDeSemana({int page = 1});
+  Future<Tv> getTvById(String id);
 }

@@ -1,7 +1,7 @@
 class Tv {
     final bool adult;
     final String backdropPath;
-    final List<int> genreIds;
+    final List<String> genreIds;
     final int id;
     final List<String> originCountry;
     final String originalLanguage;

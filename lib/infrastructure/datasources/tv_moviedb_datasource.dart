@@ -2,6 +2,7 @@ import 'package:cine_tfg_app/config/constants/environment.dart';
 import 'package:cine_tfg_app/domain/datasources/tv_datasource.dart';
 import 'package:cine_tfg_app/domain/entities/entities.dart';
 import 'package:cine_tfg_app/infrastructure/mappers/tv_mapper.dart';
+import 'package:cine_tfg_app/infrastructure/models/moviedb/tv_details.dart';
 import 'package:cine_tfg_app/infrastructure/models/moviedb/tv_response.dart';
 import 'package:dio/dio.dart';
 
@@ -78,5 +79,16 @@ class TvMoviedbDatasource extends TvDatasource{
 
   return _jsonToMovies(response.data);
 }
+
+  @override
+  Future<Tv> getTvById(String id) async {
+    final response = await dio.get('/tv/$id');
+    if ( response.statusCode != 200 ) throw Exception('Movie with id: $id not found');
+
+    
+    final tvDetails = TvDetails.fromJson( response.data );
+    final Tv tv = TvMapper.tvDetailsToEntity(tvDetails);
+    return tv;
+  }
 
 }

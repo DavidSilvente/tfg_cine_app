@@ -9,7 +9,7 @@ class TvMovieDB {
     final String overview;
     final double popularity;
     final String posterPath;
-    final DateTime firstAirDate;
+    final DateTime? firstAirDate;
     final String name;
     final double voteAverage;
     final int voteCount;
@@ -42,7 +42,9 @@ class TvMovieDB {
         overview: json["overview"] ?? '',
         popularity: json["popularity"]?.toDouble() ?? 0,
         posterPath: json["poster_path"] ?? '',
-        firstAirDate: DateTime.parse(json["first_air_date"]),
+        firstAirDate: json["first_air_date"] != null && json["first_air_date"].toString().isNotEmpty
+          ?  DateTime.parse(json["first_air_date"])
+          : null,
         name: json["name"] ?? 'No Title',
         voteAverage: json["vote_average"]?.toDouble() ?? 0,
         voteCount: json["vote_count"] ?? 0,
@@ -59,7 +61,7 @@ class TvMovieDB {
         "overview": overview,
         "popularity": popularity,
         "poster_path": posterPath,
-        "first_air_date": "${firstAirDate.year.toString().padLeft(4, '0')}-${firstAirDate.month.toString().padLeft(2, '0')}-${firstAirDate.day.toString().padLeft(2, '0')}",
+        "first_air_date": "${firstAirDate!.year.toString().padLeft(4, '0')}-${firstAirDate!.month.toString().padLeft(2, '0')}-${firstAirDate!.day.toString().padLeft(2, '0')}",
         "name": name,
         "vote_average": voteAverage,
         "vote_count": voteCount,

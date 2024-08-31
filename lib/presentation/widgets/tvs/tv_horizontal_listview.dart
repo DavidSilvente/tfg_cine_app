@@ -121,12 +121,12 @@ const _Slide({required this.tv });
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: GestureDetector(
-                onTap: () => context.push('/home/0/movie/${ tv.id }'),
+                onTap: () => context.push('/home/0/tv/${ tv.id }'),
                 child: FadeInImage(
                   height: 220,
                   fit: BoxFit.cover,
                   placeholder: const AssetImage('assets/loaders/bottle-loader.gif'), 
-                  image: NetworkImage(tv.posterPath)
+                  image: NetworkImage(tv.posterPath),
                 ),
               ),
             ),

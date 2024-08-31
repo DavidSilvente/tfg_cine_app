@@ -129,7 +129,7 @@ class HomeViewState extends ConsumerState<HomeView> {
             ),
             TvHorizontalListview(
               tvs: serieFinDeSemana,
-              title: 'Peliculas de Acción',
+              title: 'Series para ver en un fin de semana',
 
               loadNextPage: () {
                 ref.read(serieFinDeSemanaProvider.notifier).loadNextPage();

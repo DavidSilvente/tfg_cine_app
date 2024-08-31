@@ -35,4 +35,9 @@ class TvRepositoryImpl extends TvRepository{
     return tvDatasource.serieFinDeSemana(page: page);
   }
 
+  @override
+  Future<Tv> getTvById(String id) {
+    return tvDatasource.getTvById(id);
+  }
+
 }

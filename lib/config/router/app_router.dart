@@ -1,3 +1,4 @@
+import 'package:cine_tfg_app/presentation/screens/movies/tv_screen.dart';
 import 'package:cine_tfg_app/presentation/screens/screens.dart';
 import 'package:go_router/go_router.dart';
 
@@ -21,6 +22,15 @@ final appRouter = GoRouter(
             final movieId = state.pathParameters['id'] ?? 'no-id';
 
             return MovieScreen( movieId: movieId );
+          },
+        ),
+        GoRoute(
+          path: 'tv/:id',
+          name: TvScreen.name,
+          builder: (context, state) {
+            final tvId = state.pathParameters['id'] ?? 'no-id';
+
+            return TvScreen( tvId: tvId );
           },
         ),
       ]
