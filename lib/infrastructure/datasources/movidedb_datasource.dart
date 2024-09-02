@@ -25,19 +25,22 @@ class MovieDbDataSource extends MoviesDatasource {
   }
 
   @override
-  Future<List<Movie>> getNowPlaying({int page = 1}) async {
-    
-    final response = await dio.get("/discover/movie",
-    queryParameters: {
+  Future<List<Movie>> getNowPlaying({int page = 1, String? watchProviderId}) async {
+    final queryParameters = {
       'page': page,
       'region': 'ES',
       'with_release_type': '3', // 3 representa "lanzamiento en cines"
-    });
+      if (watchProviderId  != null) 'with_watch_providers': watchProviderId,
+      'watch_region': 'ES',
+    };
+  
+    print('Fetching movies with parameters: $queryParameters');
 
-  return _jsonToMovies(response.data);
+final response = await dio.get("/discover/movie", queryParameters: queryParameters);
 
-
-  }
+print('Response data: ${response.data}');
+    return _jsonToMovies(response.data);
+}
   
   @override
   Future<List<Movie>> getPopular({int page = 1}) async{

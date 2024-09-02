@@ -3,7 +3,7 @@ import 'package:cine_tfg_app/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PopularView extends ConsumerWidget {
+/*class PopularView extends ConsumerWidget {
   const PopularView({super.key});
 
   @override
@@ -22,4 +22,4 @@ class PopularView extends ConsumerWidget {
       )
     );
   }
-}
+}*/
