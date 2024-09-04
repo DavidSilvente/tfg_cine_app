@@ -1,15 +1,9 @@
-import 'package:cine_tfg_app/presentation/providers/providers.dart';
-import 'package:cine_tfg_app/presentation/providers/tv/tv_provider.dart';
-import 'package:cine_tfg_app/presentation/providers/tv/tv_slideshow_provider.dart';
 import 'package:cine_tfg_app/presentation/providers/watch_providers/watch_provider_provider.dart';
-import 'package:cine_tfg_app/presentation/widgets/tvs/tv_horizontal_listview.dart';
-import 'package:cine_tfg_app/presentation/widgets/tvs/tv_slideshow.dart';
-import 'package:cine_tfg_app/presentation/widgets/widgets.dart';
+import 'package:cine_tfg_app/presentation/providers/watch_providers/watch_provider_state_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-
-
+import 'package:cine_tfg_app/presentation/providers/providers.dart';
+import 'package:cine_tfg_app/presentation/widgets/widgets.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
@@ -20,13 +14,12 @@ class HomeView extends ConsumerStatefulWidget {
 
 class HomeViewState extends ConsumerState<HomeView> {
   bool showMovies = true; // Estado para controlar si mostrar películas o series
-  String? selectedWatchProvider; // Estado para el Watch Provider seleccionado
 
   @override
   void initState() {
     super.initState();
     
-    // Cargar las películas y series
+    // Cargar las películas y series al iniciar la vista
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
     //ref.read(popularMoviesProvider.notifier).loadNextPage();
     //ref.read(topRatedMoviesProvider.notifier).loadNextPage();
@@ -37,10 +30,11 @@ class HomeViewState extends ConsumerState<HomeView> {
     //ref.read(serieFinDeSemanaProvider.notifier).loadNextPage();
     //ref.read(getDecadaDeLos80Provider.notifier).loadNextPage();
 
-    // Cargar los Watch Providers
+    // Cargar los Watch Providers disponibles
     ref.read(watchProvidersProvider);
   }
 
+  // Método para alternar entre mostrar películas o series
   void toggleFilter() {
     setState(() {
       showMovies = !showMovies; // Cambia el estado al presionar el botón
@@ -52,9 +46,12 @@ class HomeViewState extends ConsumerState<HomeView> {
     final initialLoading = ref.watch(initialLoadingProvider);
     if (initialLoading) return const FullScreenLoader();
     
-    // Obtener los Watch Providers
+    // Obtener el estado actual del Watch Provider seleccionado
+    final selectedWatchProviderId = ref.watch(selectedWatchProviderIdProvider);
+    // Obtener los Watch Providers disponibles
     final watchProvidersAsync = ref.watch(watchProvidersProvider);
 
+    // Obtener las películas para el slideshow y las que están en cines
     final slideShowMovies = ref.watch(moviesSlideshowProvider);
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     //final topRatedMovies = ref.watch(topRatedMoviesProvider);
@@ -87,41 +84,61 @@ class HomeViewState extends ConsumerState<HomeView> {
               (context, index) {
                 return Column(
                   children: [
-                    ElevatedButton(
-                      onPressed: toggleFilter,
-                      child: Text(showMovies ? 'Mostrar Series' : 'Mostrar Películas'),
-                    ),
-                    watchProvidersAsync.when(
-                      data: (watchProviders) {
-                        return DropdownButton<String>(
-  hint: const Text("Selecciona un proveedor"),
-  value: selectedWatchProvider,
-  items: watchProviders.map((provider) {
-    return DropdownMenuItem<String>(
-      value: provider.id.toString(),
-      child: Text(provider.name),
-    );
-  }).toList(),
-  onChanged: (value) {
-    setState(() {
-      selectedWatchProvider = value;
-    });
+                    // Usar Row para alinear el botón de Mostrar Series y el Dropdown
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ElevatedButton(
+                          onPressed: toggleFilter,
+                          child: Text(showMovies ? 'Mostrar Series' : 'Mostrar Películas'),
+                        ),
+                        watchProvidersAsync.when(
+                          data: (watchProviders) {
+                            return DropdownButton<String>(
+                              hint: const Text("Selecciona un proveedor"),
+                              value: selectedWatchProviderId,
+                              items: watchProviders.map((provider) {
+                                return DropdownMenuItem<String>(
+                                  value: provider.id.toString(),
+                                  child: Row(
+                                    children: [
+                                      Image.network(
+                                        'https://image.tmdb.org/t/p/w45${provider.logoPath}',
+                                        width: 24,
+                                        height: 24,
+                                        errorBuilder: (context, error, stackTrace) {
+                                          return Icon(Icons.error);
+                                        },
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(provider.name),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                if (value != null) {
+                                  // Actualizar el estado global usando el StateNotifier
+                                  ref.read(selectedWatchProviderIdProvider.notifier).updateProvider(value);
 
-    // Recargar las películas con el nuevo proveedor seleccionado
-    ref.read(nowPlayingMoviesProvider.notifier).reloadMovies(watchProviderId: selectedWatchProvider);
-                            //ref.read(popularMoviesProvider.notifier).loadNextPage(watchProviderId: selectedWatchProvider);
-                            //ref.read(topRatedMoviesProvider.notifier).loadNextPage(watchProviderId: selectedWatchProvider);
-                            //ref.read(upcomingMoviesProvider.notifier).loadNextPage(watchProviderId: selectedWatchProvider);
-                            //ref.read(moviesOfActionInSpainProvider.notifier).loadNextPage(watchProviderId: selectedWatchProvider);
-                            //ref.read(getDecadaDeLos90Provider.notifier).loadNextPage(watchProviderId: selectedWatchProvider);
-                            //ref.read(airingTodayProvider.notifier).loadNextPage(watchProviderId: selectedWatchProvider);
-                            //ref.read(serieFinDeSemanaProvider.notifier).loadNextPage(watchProviderId: selectedWatchProvider);
-                            //ref.read(getDecadaDeLos80Provider.notifier).loadNextPage(watchProviderId: selectedWatchProvider);
+                                  // Recargar las películas con el nuevo proveedor seleccionado
+                                  ref.read(nowPlayingMoviesProvider.notifier).updateMovies(watchProviderId: value);
+                                  //ref.read(popularMoviesProvider.notifier).loadNextPage(watchProviderId: value);
+                                  //ref.read(topRatedMoviesProvider.notifier).loadNextPage(watchProviderId: value);
+                                  //ref.read(upcomingMoviesProvider.notifier).loadNextPage(watchProviderId: value);
+                                  //ref.read(moviesOfActionInSpainProvider.notifier).loadNextPage(watchProviderId: value);
+                                  //ref.read(getDecadaDeLos90Provider.notifier).loadNextPage(watchProviderId: value);
+                                  //ref.read(airingTodayProvider.notifier).loadNextPage(watchProviderId: value);
+                                  //ref.read(serieFinDeSemanaProvider.notifier).loadNextPage(watchProviderId: value);
+                                  //ref.read(getDecadaDeLos80Provider.notifier).loadNextPage(watchProviderId: value);
+                                }
+                              },
+                            );
                           },
-                        );
-                      },
-                      loading: () => CircularProgressIndicator(),
-                      error: (err, stack) => Text('Error: $err'),
+                          loading: () => const CircularProgressIndicator(),
+                          error: (err, stack) => Text('Error: $err'),
+                        ),
+                      ],
                     ),
                     if (showMovies) ...[
                       MoviesSlideShow(movies: slideShowMovies),
@@ -129,7 +146,9 @@ class HomeViewState extends ConsumerState<HomeView> {
                         movies: nowPlayingMovies,
                         title: 'En cines',
                         loadNextPage: () {
-                          ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                          ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(
+                            watchProviderId: selectedWatchProviderId, // Asegurarse de pasar el ID del proveedor aquí
+                          );
                         },
                       ),
                     ],

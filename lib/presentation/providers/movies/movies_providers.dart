@@ -79,11 +79,19 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
     isLoading = false;
   }
 
-  // Opcional: método para reiniciar el estado y recargar las películas
-  Future<void> reloadMovies({String? watchProviderId}) async {
-    currentPage = 0;
-    state = [];
-    await loadNextPage(watchProviderId: watchProviderId);
+  // Nuevo método para cargar películas según el proveedor sin resetear la lista
+  Future<void> updateMovies({String? watchProviderId}) async {
+    if (isLoading) return;
+
+    isLoading = true;
+    currentPage = 1; // Reinicia a la primera página
+
+    final List<Movie> movies = await fetchMoreMovies(page: currentPage, watchProviderId: watchProviderId);
+    state = [...movies]; // Actualiza la lista de películas con los nuevos resultados
+
+    await Future.delayed(const Duration(milliseconds: 300));
+    isLoading = false;
   }
 }
+
 
