@@ -14,8 +14,8 @@ final goRouterProvider = Provider((ref) {
 
 
   return GoRouter(
-  //initialLocation: '/home/0',
-    initialLocation: '/splash',
+  initialLocation: '/home/0',
+    //initialLocation: '/login',
     refreshListenable: goRouterNotifier,
     routes: [
 
@@ -70,13 +70,25 @@ final goRouterProvider = Provider((ref) {
     ],
 
     redirect: (context, state) {
-       if (!state.matchedLocation.startsWith('/home')) {
-        return '/home/0'; // Siempre redirigir a '/home/0' u otra página si lo prefieres
+       final isGoingTo = state.matchedLocation;
+       final authStatus = goRouterNotifier.authStatus;
+
+      if ( isGoingTo == '/splash' && authStatus == AuthStatus.checking ) return null;
+
+      if ( authStatus == AuthStatus.notAuthenticated ) {
+        if ( isGoingTo == '/login' || isGoingTo == '/register' || isGoingTo == '/splash' ) return null;
+
+        return '/login';
       }
 
-      // Si ya está en una página de '/home', no redirigir
+      if ( authStatus == AuthStatus.authenticated ) {
+        if ( isGoingTo == '/login' || isGoingTo == '/register' || isGoingTo == '/splash' ){
+           return '/home/0';
+        }
+      }
+
+
       return null;
-      
     },
 
 

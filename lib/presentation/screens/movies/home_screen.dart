@@ -1,4 +1,5 @@
 import 'package:cine_tfg_app/presentation/views/views.dart';
+import 'package:cine_tfg_app/presentation/widgets/shared/widgets/side_menu.dart';
 import 'package:cine_tfg_app/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -42,6 +43,9 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
 
   @override
   Widget build(BuildContext context) {
+
+    final scaffoldKey = GlobalKey<ScaffoldState>();
+
     super.build(context);
 
     if ( pageController.hasClients ) {
@@ -53,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     }
 
     return Scaffold(
+      drawer: SideMenu(scaffoldKey: scaffoldKey),
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
