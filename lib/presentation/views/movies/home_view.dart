@@ -35,6 +35,10 @@ class HomeViewState extends ConsumerState<HomeView> {
       // Recargar las películas cuando cambie el proveedor
       ref.read(nowPlayingMoviesProvider.notifier).updateMovies(watchProviderId: next);
       ref.read(topRatedMoviesProvider.notifier).updateMovies(watchProviderId: next);
+      ref.read(upcomingMoviesProvider.notifier).updateMovies(watchProviderId: next);
+      ref.read(moviesOfActionInSpainProvider.notifier).updateMovies(watchProviderId: next);
+      ref.read(getDecadaDeLos80Provider.notifier).updateMovies(watchProviderId: next);
+      ref.read(getDecadaDeLos90Provider.notifier).updateMovies(watchProviderId: next);
     }
   });
 
@@ -50,10 +54,10 @@ class HomeViewState extends ConsumerState<HomeView> {
     final slideShowMovies = ref.watch(moviesSlideshowProvider);
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final topRatedMovies = ref.watch(topRatedMoviesProvider);
-    //final upcomingMovies = ref.watch(upcomingMoviesProvider);
-    //final moviesOfAction = ref.watch(moviesOfActionInSpainProvider);
-    //final decadaDeLos90 = ref.watch(getDecadaDeLos90Provider);
-    //final decadaDeLos80 = ref.watch(getDecadaDeLos80Provider);
+    final upcomingMovies = ref.watch(upcomingMoviesProvider);
+    final moviesOfAction = ref.watch(moviesOfActionInSpainProvider);
+    final decadaDeLos90 = ref.watch(getDecadaDeLos90Provider);
+    final decadaDeLos80 = ref.watch(getDecadaDeLos80Provider);
     //final slideShowTvs = ref.watch(tvSlideshowProvider);
     //final airingToday = ref.watch(airingTodayProvider);
     //final serieFinDeSemana = ref.watch(serieFinDeSemanaProvider);
@@ -120,12 +124,13 @@ class HomeViewState extends ConsumerState<HomeView> {
                                   ref.read(nowPlayingMoviesProvider.notifier).updateMovies(watchProviderId: value);
                                   //ref.read(popularMoviesProvider.notifier).loadNextPage(watchProviderId: value);
                                   ref.read(topRatedMoviesProvider.notifier).loadNextPage(watchProviderId: value);
-                                  //ref.read(upcomingMoviesProvider.notifier).loadNextPage(watchProviderId: value);
-                                  //ref.read(moviesOfActionInSpainProvider.notifier).loadNextPage(watchProviderId: value);
-                                  //ref.read(getDecadaDeLos90Provider.notifier).loadNextPage(watchProviderId: value);
+                                  ref.read(upcomingMoviesProvider.notifier).loadNextPage(watchProviderId: value);
+                                  ref.read(moviesOfActionInSpainProvider.notifier).loadNextPage(watchProviderId: value);
+                                  ref.read(getDecadaDeLos90Provider.notifier).loadNextPage(watchProviderId: value);
+                                  ref.read(getDecadaDeLos80Provider.notifier).loadNextPage(watchProviderId: value);
                                   //ref.read(airingTodayProvider.notifier).loadNextPage(watchProviderId: value);
                                   //ref.read(serieFinDeSemanaProvider.notifier).loadNextPage(watchProviderId: value);
-                                  //ref.read(getDecadaDeLos80Provider.notifier).loadNextPage(watchProviderId: value);
+                                  
                                 }
                               },
                             );
@@ -147,13 +152,13 @@ class HomeViewState extends ConsumerState<HomeView> {
                         },
                       ),
                     ],
-                    //  MovieHorizontalListview(
-                    //    movies: upcomingMovies,
-                    //    title: 'Próximamente',
-                    //    loadNextPage: () {
-                    //      ref.read(upcomingMoviesProvider.notifier).loadNextPage();
-                    //    },
-                    //  ),
+                      MovieHorizontalListview(
+                        movies: upcomingMovies,
+                        title: 'Próximamente',
+                        loadNextPage: () {
+                          ref.read(upcomingMoviesProvider.notifier).loadNextPage();
+                        },
+                      ),
                       MovieHorizontalListview(
                         movies: topRatedMovies,
                         title: 'Mejor calificadas',
@@ -161,27 +166,27 @@ class HomeViewState extends ConsumerState<HomeView> {
                           ref.read(topRatedMoviesProvider.notifier).loadNextPage();
                         },
                       ),
-                    //  MovieHorizontalListview(
-                    //    movies: moviesOfAction,
-                    //    title: 'Películas de Acción',
-                    //    loadNextPage: () {
-                    //      ref.read(moviesOfActionInSpainProvider.notifier).loadNextPage();
-                    //    },
-                    //  ),
-                    //  MovieHorizontalListview(
-                    //    movies: decadaDeLos90,
-                    //    title: 'Década de los 90',
-                    //    loadNextPage: () {
-                    //      ref.read(getDecadaDeLos90Provider.notifier).loadNextPage();
-                    //    },
-                    //  ),
-                    //  MovieHorizontalListview(
-                    //    movies: decadaDeLos80,
-                    //    title: 'Década de los 80',
-                    //    loadNextPage: () {
-                    //      ref.read(getDecadaDeLos80Provider.notifier).loadNextPage();
-                    //    },
-                    //  ),
+                      MovieHorizontalListview(
+                        movies: moviesOfAction,
+                        title: 'Películas de Acción',
+                        loadNextPage: () {
+                          ref.read(moviesOfActionInSpainProvider.notifier).loadNextPage();
+                        },
+                      ),
+                      MovieHorizontalListview(
+                        movies: decadaDeLos90,
+                        title: 'Década de los 90',
+                        loadNextPage: () {
+                          ref.read(getDecadaDeLos90Provider.notifier).loadNextPage();
+                        },
+                      ),
+                      MovieHorizontalListview(
+                        movies: decadaDeLos80,
+                        title: 'Década de los 80',
+                        loadNextPage: () {
+                          ref.read(getDecadaDeLos80Provider.notifier).loadNextPage();
+                        },
+                      ),
                     //] else ...[
                     //  TvSlideShow(tvs: slideShowTvs),
                     //  TvHorizontalListview(

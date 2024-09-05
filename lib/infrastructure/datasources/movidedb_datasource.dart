@@ -65,7 +65,6 @@ final response = await dio.get("/discover/movie", queryParameters: queryParamete
 
   final response = await dio.get("/discover/movie", queryParameters: queryParameters);
 
-print('Response data: ${response.data}');
     return _jsonToMovies(response.data);
 }
 
@@ -115,43 +114,52 @@ print('Response data: ${response.data}');
   }
   
   @override
-  Future<List<Movie>> getMoviesInSpain({int page = 1, String? watchProviderId, int genre = 28, double minVote = 7.5}) async {
-    final response = await dio.get("/discover/movie",
-      queryParameters: {
-        'page': page,
-        'watch_region': 'ES',
-        'with_watch_providers': '8|9|337|384|350|35',
-        'with_genres': genre,
-        'vote_average.gte': minVote, // Calificación mínima
-      });
+Future<List<Movie>> getMoviesInSpain({int page = 1, String? watchProviderId, int genre = 28, double minVote = 7.5}) async {
+  final queryParameters = {
+    'page': page,
+    'watch_region': 'ES',
+    'with_genres': genre,
+    'vote_average.gte': minVote, // Calificación mínima
+    if (watchProviderId != null) 'with_watch_providers': watchProviderId,
+  };
 
-    return _jsonToMovies(response.data);
-  }
-
-  @override
-  Future<List<Movie>> getDecadaDeLos90({int page = 1, String? watchProviderId}) async {
-    final response = await dio.get("/discover/movie",
-      queryParameters: {
-      'page': page,
-      'primary_release_date.gte': '1990-01-01', // Fecha de inicio de la década
-      'primary_release_date.lte': '1999-12-31', // Fecha de fin de la década
-    });    
+  final response = await dio.get("/discover/movie", queryParameters: queryParameters);
 
   return _jsonToMovies(response.data);
-  }
+}
+
 
   @override
-  Future<List<Movie>> getDecadaDeLos80({int page = 1, String? watchProviderId}) async {
-    final response = await dio.get("/discover/movie",
-      queryParameters: {
-      'page': page,
-      'primary_release_date.gte': '1980-01-01', // Fecha de inicio de la década
-      'primary_release_date.lte': '1989-12-31',
-      'include_adult': false // Fecha de fin de la década
-    });    
+Future<List<Movie>> getDecadaDeLos90({int page = 1, String? watchProviderId}) async {
+  final queryParameters = {
+    'page': page,
+    'primary_release_date.gte': '1990-01-01', // Fecha de inicio de la década
+    'primary_release_date.lte': '1999-12-31', // Fecha de fin de la década
+    if (watchProviderId != null) 'with_watch_providers': watchProviderId,
+    'watch_region': 'ES',
+  };
+
+  final response = await dio.get("/discover/movie", queryParameters: queryParameters);
 
   return _jsonToMovies(response.data);
-  }
+}
+
+  @override
+Future<List<Movie>> getDecadaDeLos80({int page = 1, String? watchProviderId}) async {
+  final queryParameters = {
+    'page': page,
+    'primary_release_date.gte': '1980-01-01', // Fecha de inicio de la década
+    'primary_release_date.lte': '1989-12-31', // Fecha de fin de la década
+    'include_adult': false, // Excluir contenido para adultos
+    if (watchProviderId != null) 'with_watch_providers': watchProviderId,
+    'watch_region': 'ES',
+  };
+
+  final response = await dio.get("/discover/movie", queryParameters: queryParameters);
+
+  return _jsonToMovies(response.data);
+}
+
 
 
   
