@@ -12,6 +12,7 @@ final selectedWatchProviderIdProvider = StateNotifierProvider<SelectedProviderNo
 class SelectedProviderNotifier extends StateNotifier<String?> {
   final GetWatchProviderId getWatchProviderId;
   final SaveWatchProviderId saveWatchProviderId;
+  
 
   SelectedProviderNotifier(this.getWatchProviderId, this.saveWatchProviderId) : super(null) {
     _loadInitialProvider(); // Cargar el estado inicial desde la persistencia

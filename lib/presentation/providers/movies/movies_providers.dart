@@ -11,47 +11,47 @@ final nowPlayingMoviesProvider = StateNotifierProvider<MoviesNotifier,List<Movie
   );
 });
 
-//final popularMoviesProvider = StateNotifierProvider<MoviesNotifier,List<Movie>>((ref) {
-//  final fetchMoreMovies = ref.watch(movieRepositoryProvider).getPopular;
-//  return MoviesNotifier(
-//    fetchMoreMovies: fetchMoreMovies
-//  );
-//});
+final popularMoviesProvider = StateNotifierProvider<MoviesNotifier,List<Movie>>((ref) {
+  final fetchMoreMovies = ref.watch(movieRepositoryProvider).getPopular;
+  return MoviesNotifier(
+    fetchMoreMovies: fetchMoreMovies
+  );
+});
 
-//final topRatedMoviesProvider = StateNotifierProvider<MoviesNotifier,List<Movie>>((ref) {
-//  final fetchMoreMovies = ref.watch(movieRepositoryProvider).getTopRated;
-//  return MoviesNotifier(
-//    fetchMoreMovies: fetchMoreMovies
-//  );
-//});
-//
-//final upcomingMoviesProvider = StateNotifierProvider<MoviesNotifier,List<Movie>>((ref) {
-//  final fetchMoreMovies = ref.watch(movieRepositoryProvider).getUpcoming;
-//  return MoviesNotifier(
-//    fetchMoreMovies: fetchMoreMovies
-//  );
-//});
-//
-//final moviesOfActionInSpainProvider = StateNotifierProvider<MoviesNotifier,List<Movie>>((ref) {
-//  final fetchMoreMovies = ref.watch(movieRepositoryProvider).getMoviesInSpain;
-//  return MoviesNotifier(
-//    fetchMoreMovies: fetchMoreMovies
-//  );
-//});
-//
-//final getDecadaDeLos90Provider = StateNotifierProvider<MoviesNotifier,List<Movie>>((ref) {
-//  final fetchMoreMovies = ref.watch(movieRepositoryProvider).getDecadaDeLos90;
-//  return MoviesNotifier(
-//    fetchMoreMovies: fetchMoreMovies
-//  );
-//});
-//
-//final getDecadaDeLos80Provider = StateNotifierProvider<MoviesNotifier,List<Movie>>((ref) {
-//  final fetchMoreMovies = ref.watch(movieRepositoryProvider).getDecadaDeLos80;
-//  return MoviesNotifier(
-//    fetchMoreMovies: fetchMoreMovies
-//  );
-//});
+final topRatedMoviesProvider = StateNotifierProvider<MoviesNotifier,List<Movie>>((ref) {
+  final fetchMoreMovies = ref.watch(movieRepositoryProvider).getTopRated;
+  return MoviesNotifier(
+    fetchMoreMovies: fetchMoreMovies
+  );
+});
+
+final upcomingMoviesProvider = StateNotifierProvider<MoviesNotifier,List<Movie>>((ref) {
+  final fetchMoreMovies = ref.watch(movieRepositoryProvider).getUpcoming;
+  return MoviesNotifier(
+    fetchMoreMovies: fetchMoreMovies
+  );
+});
+
+final moviesOfActionInSpainProvider = StateNotifierProvider<MoviesNotifier,List<Movie>>((ref) {
+  final fetchMoreMovies = ref.watch(movieRepositoryProvider).getMoviesInSpain;
+  return MoviesNotifier(
+    fetchMoreMovies: fetchMoreMovies
+  );
+});
+
+final getDecadaDeLos90Provider = StateNotifierProvider<MoviesNotifier,List<Movie>>((ref) {
+  final fetchMoreMovies = ref.watch(movieRepositoryProvider).getDecadaDeLos90;
+  return MoviesNotifier(
+    fetchMoreMovies: fetchMoreMovies
+  );
+});
+
+final getDecadaDeLos80Provider = StateNotifierProvider<MoviesNotifier,List<Movie>>((ref) {
+  final fetchMoreMovies = ref.watch(movieRepositoryProvider).getDecadaDeLos80;
+  return MoviesNotifier(
+    fetchMoreMovies: fetchMoreMovies
+  );
+});
 
 
 typedef MovieCallback = Future<List<Movie>> Function({int page, String? watchProviderId});

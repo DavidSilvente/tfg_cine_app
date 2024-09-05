@@ -18,20 +18,6 @@ class HomeViewState extends ConsumerState<HomeView> {
   @override
   void initState() {
     super.initState();
-    
-    // Cargar las películas y series al iniciar la vista
-    ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
-    //ref.read(popularMoviesProvider.notifier).loadNextPage();
-    //ref.read(topRatedMoviesProvider.notifier).loadNextPage();
-    //ref.read(upcomingMoviesProvider.notifier).loadNextPage();
-    //ref.read(moviesOfActionInSpainProvider.notifier).loadNextPage();
-    //ref.read(getDecadaDeLos90Provider.notifier).loadNextPage();
-    //ref.read(airingTodayProvider.notifier).loadNextPage();
-    //ref.read(serieFinDeSemanaProvider.notifier).loadNextPage();
-    //ref.read(getDecadaDeLos80Provider.notifier).loadNextPage();
-
-    // Cargar los Watch Providers disponibles
-    ref.read(watchProvidersProvider);
   }
 
   // Método para alternar entre mostrar películas o series
@@ -43,6 +29,15 @@ class HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+
+    ref.listen<String?>(selectedWatchProviderIdProvider, (previous, next) {
+    if (next != null && previous != next) {
+      // Recargar las películas cuando cambie el proveedor
+      ref.read(nowPlayingMoviesProvider.notifier).updateMovies(watchProviderId: next);
+      ref.read(topRatedMoviesProvider.notifier).updateMovies(watchProviderId: next);
+    }
+  });
+
     final initialLoading = ref.watch(initialLoadingProvider);
     if (initialLoading) return const FullScreenLoader();
     
@@ -54,7 +49,7 @@ class HomeViewState extends ConsumerState<HomeView> {
     // Obtener las películas para el slideshow y las que están en cines
     final slideShowMovies = ref.watch(moviesSlideshowProvider);
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
-    //final topRatedMovies = ref.watch(topRatedMoviesProvider);
+    final topRatedMovies = ref.watch(topRatedMoviesProvider);
     //final upcomingMovies = ref.watch(upcomingMoviesProvider);
     //final moviesOfAction = ref.watch(moviesOfActionInSpainProvider);
     //final decadaDeLos90 = ref.watch(getDecadaDeLos90Provider);
@@ -124,7 +119,7 @@ class HomeViewState extends ConsumerState<HomeView> {
                                   // Recargar las películas con el nuevo proveedor seleccionado
                                   ref.read(nowPlayingMoviesProvider.notifier).updateMovies(watchProviderId: value);
                                   //ref.read(popularMoviesProvider.notifier).loadNextPage(watchProviderId: value);
-                                  //ref.read(topRatedMoviesProvider.notifier).loadNextPage(watchProviderId: value);
+                                  ref.read(topRatedMoviesProvider.notifier).loadNextPage(watchProviderId: value);
                                   //ref.read(upcomingMoviesProvider.notifier).loadNextPage(watchProviderId: value);
                                   //ref.read(moviesOfActionInSpainProvider.notifier).loadNextPage(watchProviderId: value);
                                   //ref.read(getDecadaDeLos90Provider.notifier).loadNextPage(watchProviderId: value);
@@ -159,13 +154,13 @@ class HomeViewState extends ConsumerState<HomeView> {
                     //      ref.read(upcomingMoviesProvider.notifier).loadNextPage();
                     //    },
                     //  ),
-                    //  MovieHorizontalListview(
-                    //    movies: topRatedMovies,
-                    //    title: 'Mejor calificadas',
-                    //    loadNextPage: () {
-                    //      ref.read(topRatedMoviesProvider.notifier).loadNextPage();
-                    //    },
-                    //  ),
+                      MovieHorizontalListview(
+                        movies: topRatedMovies,
+                        title: 'Mejor calificadas',
+                        loadNextPage: () {
+                          ref.read(topRatedMoviesProvider.notifier).loadNextPage();
+                        },
+                      ),
                     //  MovieHorizontalListview(
                     //    movies: moviesOfAction,
                     //    title: 'Películas de Acción',

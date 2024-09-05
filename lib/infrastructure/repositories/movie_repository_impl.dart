@@ -16,17 +16,17 @@ class MovieRepositoryImpl extends MoviesRepository {
   }
   
   @override
-  Future<List<Movie>> getPopular({int page = 1}) {
+  Future<List<Movie>> getPopular({int page = 1, String? watchProviderId,})  {
     return moviesDatasource.getPopular(page: page);
   }
   
   @override
-  Future<List<Movie>> getTopRated({int page = 1}) {
-    return moviesDatasource.getTopRated(page: page);
+  Future<List<Movie>> getTopRated({int page = 1, String? watchProviderId,})  {
+    return moviesDatasource.getTopRated(page: page, watchProviderId: watchProviderId);
   }
 
   @override
-  Future<List<Movie>> getUpcoming({int page = 1}) {
+  Future<List<Movie>> getUpcoming({int page = 1, String? watchProviderId,})  {
     return moviesDatasource.getUpcoming(page: page);
   }
   
@@ -46,17 +46,17 @@ class MovieRepositoryImpl extends MoviesRepository {
   }
   
   @override
-  Future<List<Movie>> getMoviesInSpain({int page = 1}) {
+  Future<List<Movie>> getMoviesInSpain({int page = 1, String? watchProviderId,})  {
     return moviesDatasource.getMoviesInSpain(page: page);
   }
   
   @override
-  Future<List<Movie>> getDecadaDeLos90({int page = 1}) {
+  Future<List<Movie>> getDecadaDeLos90({int page = 1, String? watchProviderId,})  {
     return moviesDatasource.getDecadaDeLos90(page: page);
   }
 
   @override
-  Future<List<Movie>> getDecadaDeLos80({int page = 1}) {
+  Future<List<Movie>> getDecadaDeLos80({int page = 1, String? watchProviderId,})  {
     return moviesDatasource.getDecadaDeLos80(page: page);
   }
 

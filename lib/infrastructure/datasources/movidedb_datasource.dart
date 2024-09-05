@@ -34,16 +34,15 @@ class MovieDbDataSource extends MoviesDatasource {
       'watch_region': 'ES',
     };
   
-    print('Fetching movies with parameters: $queryParameters');
+    
 
 final response = await dio.get("/discover/movie", queryParameters: queryParameters);
 
-print('Response data: ${response.data}');
     return _jsonToMovies(response.data);
 }
   
   @override
-  Future<List<Movie>> getPopular({int page = 1}) async{
+  Future<List<Movie>> getPopular({int page = 1, String? watchProviderId}) async{
     final response = await dio.get("/movie/popular",
     queryParameters: {
       'page': page
@@ -53,21 +52,25 @@ print('Response data: ${response.data}');
   }
 
   @override
-  Future<List<Movie>> getTopRated({int page = 1}) async{
-    final response = await dio.get("/discover/movie",
-    queryParameters: {
+  Future<List<Movie>> getTopRated({int page = 1, String? watchProviderId}) async{
+    
+    final queryParameters = {
       'page': page,
+      'region': 'ES',
       'watch_region': 'ES',
-      'with_watch_providers': '8|9|337|384|350|35',
+      if (watchProviderId  != null) 'with_watch_providers': watchProviderId,
       'sort_by': 'vote_average.desc', // Ordenar por calificación
       'vote_count.gte': 1000, // Filtrar por un mínimo de votos
-    });
+    };
 
+  final response = await dio.get("/discover/movie", queryParameters: queryParameters);
+
+print('Response data: ${response.data}');
     return _jsonToMovies(response.data);
-  }
+}
 
   @override
-  Future<List<Movie>> getUpcoming({int page = 1}) async {
+  Future<List<Movie>> getUpcoming({int page = 1, String? watchProviderId}) async {
     
     final response = await dio.get("/movie/upcoming",
     queryParameters: {
@@ -112,7 +115,7 @@ print('Response data: ${response.data}');
   }
   
   @override
-  Future<List<Movie>> getMoviesInSpain({int page = 1, int genre = 28, double minVote = 7.5}) async {
+  Future<List<Movie>> getMoviesInSpain({int page = 1, String? watchProviderId, int genre = 28, double minVote = 7.5}) async {
     final response = await dio.get("/discover/movie",
       queryParameters: {
         'page': page,
@@ -126,7 +129,7 @@ print('Response data: ${response.data}');
   }
 
   @override
-  Future<List<Movie>> getDecadaDeLos90({int page = 1}) async {
+  Future<List<Movie>> getDecadaDeLos90({int page = 1, String? watchProviderId}) async {
     final response = await dio.get("/discover/movie",
       queryParameters: {
       'page': page,
@@ -138,7 +141,7 @@ print('Response data: ${response.data}');
   }
 
   @override
-  Future<List<Movie>> getDecadaDeLos80({int page = 1}) async {
+  Future<List<Movie>> getDecadaDeLos80({int page = 1, String? watchProviderId}) async {
     final response = await dio.get("/discover/movie",
       queryParameters: {
       'page': page,
