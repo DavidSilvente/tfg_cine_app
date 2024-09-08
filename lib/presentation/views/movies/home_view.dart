@@ -39,6 +39,8 @@ class HomeViewState extends ConsumerState<HomeView> {
       ref.read(moviesOfActionInSpainProvider.notifier).updateMovies(watchProviderId: next);
       ref.read(getDecadaDeLos80Provider.notifier).updateMovies(watchProviderId: next);
       ref.read(getDecadaDeLos90Provider.notifier).updateMovies(watchProviderId: next);
+      ref.read(airingTodayProvider.notifier).updateTvs(watchProviderId: next);
+      ref.read(serieFinDeSemanaProvider.notifier).updateTvs(watchProviderId: next);
     }
   });
 
@@ -58,9 +60,9 @@ class HomeViewState extends ConsumerState<HomeView> {
     final moviesOfAction = ref.watch(moviesOfActionInSpainProvider);
     final decadaDeLos90 = ref.watch(getDecadaDeLos90Provider);
     final decadaDeLos80 = ref.watch(getDecadaDeLos80Provider);
-    //final slideShowTvs = ref.watch(tvSlideshowProvider);
-    //final airingToday = ref.watch(airingTodayProvider);
-    //final serieFinDeSemana = ref.watch(serieFinDeSemanaProvider);
+    final slideShowTvs = ref.watch(tvSlideshowProvider);
+    final airingToday = ref.watch(airingTodayProvider);
+    final serieFinDeSemana = ref.watch(serieFinDeSemanaProvider);
 
     return Visibility(
       visible: !initialLoading,
@@ -128,8 +130,8 @@ class HomeViewState extends ConsumerState<HomeView> {
                                   ref.read(moviesOfActionInSpainProvider.notifier).loadNextPage(watchProviderId: value);
                                   ref.read(getDecadaDeLos90Provider.notifier).loadNextPage(watchProviderId: value);
                                   ref.read(getDecadaDeLos80Provider.notifier).loadNextPage(watchProviderId: value);
-                                  //ref.read(airingTodayProvider.notifier).loadNextPage(watchProviderId: value);
-                                  //ref.read(serieFinDeSemanaProvider.notifier).loadNextPage(watchProviderId: value);
+                                  ref.read(airingTodayProvider.notifier).loadNextPage(watchProviderId: value);
+                                  ref.read(serieFinDeSemanaProvider.notifier).loadNextPage(watchProviderId: value);
                                   
                                 }
                               },
@@ -151,7 +153,7 @@ class HomeViewState extends ConsumerState<HomeView> {
                           );
                         },
                       ),
-                    ],
+
                       MovieHorizontalListview(
                         movies: upcomingMovies,
                         title: 'Próximamente',
@@ -187,23 +189,23 @@ class HomeViewState extends ConsumerState<HomeView> {
                           ref.read(getDecadaDeLos80Provider.notifier).loadNextPage();
                         },
                       ),
-                    //] else ...[
-                    //  TvSlideShow(tvs: slideShowTvs),
-                    //  TvHorizontalListview(
-                    //    tvs: airingToday,
-                    //    title: 'Airing Today',
-                    //    loadNextPage: () {
-                    //      ref.read(airingTodayProvider.notifier).loadNextPage();
-                    //    },
-                    //  ),
-                    //  TvHorizontalListview(
-                    //    tvs: serieFinDeSemana,
-                    //    title: 'Series para ver en un fin de semana',
-                    //    loadNextPage: () {
-                    //      ref.read(serieFinDeSemanaProvider.notifier).loadNextPage();
-                    //    },
-                    //  ),
-                    //],
+                    ] else ...[
+                      TvSlideShow(tvs: slideShowTvs),
+                      TvHorizontalListview(
+                        tvs: airingToday,
+                        title: 'Airing Today',
+                        loadNextPage: () {
+                          ref.read(airingTodayProvider.notifier).loadNextPage();
+                        },
+                      ),
+                      TvHorizontalListview(
+                        tvs: serieFinDeSemana,
+                        title: 'Series para ver en un fin de semana',
+                        loadNextPage: () {
+                          ref.read(serieFinDeSemanaProvider.notifier).loadNextPage();
+                        },
+                      ),
+                    ],
                     const SizedBox(height: 10),
                   ],
                 );

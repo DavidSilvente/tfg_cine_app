@@ -10,11 +10,11 @@ final tvInfoProvider = StateNotifierProvider<TvMapNotifier, Map<String,Tv>>((ref
 });
 
 
-typedef GetMovieCallback = Future<Tv>Function(String tvId);
+typedef GetTvCallback = Future<Tv>Function(String tvId);
 
 class TvMapNotifier extends StateNotifier<Map<String, Tv>> {
 
-  final GetMovieCallback getTv;
+  final GetTvCallback getTv;
   TvMapNotifier({
     required this.getTv,
   }): super({});
@@ -27,4 +27,7 @@ class TvMapNotifier extends StateNotifier<Map<String, Tv>> {
     //Clonar estado y movieId apunta a movie
     state = {...state, tvId: tv};
   }
+
+  
+
 }

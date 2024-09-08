@@ -11,28 +11,28 @@ class TvRepositoryImpl extends TvRepository{
   TvRepositoryImpl(this.tvDatasource);
 
   @override
-  Future<List<Tv>> getAiringToday({int page = 1}) {
-    return tvDatasource.getAiringToday(page: page);
+  Future<List<Tv>> getAiringToday({int page = 1, String? watchProviderId,}) {
+    return tvDatasource.getAiringToday(page: page, watchProviderId: watchProviderId);
   }
 
   @override
-  Future<List<Tv>> getOnTheAir({int page = 1}) {
-    return tvDatasource.getOnTheAir(page: page);
+  Future<List<Tv>> getOnTheAir({int page = 1, String? watchProviderId,}) {
+    return tvDatasource.getOnTheAir(page: page, watchProviderId: watchProviderId);
   }
 
   @override
-  Future<List<Tv>> getPopular({int page = 1}) {
-    return tvDatasource.getPopular(page: page);
+  Future<List<Tv>> getPopular({int page = 1, String? watchProviderId,}) {
+    return tvDatasource.getPopular(page: page, watchProviderId: watchProviderId);
   }
 
   @override
-  Future<List<Tv>> getTopRated({int page = 1}) {
-    return tvDatasource.getTopRated(page: page);
+  Future<List<Tv>> getTopRated({int page = 1, String? watchProviderId,}) {
+    return tvDatasource.getTopRated(page: page, watchProviderId: watchProviderId);
   }
   
   @override
-  Future<List<Tv>> serieFinDeSemana({int page = 1}) {
-    return tvDatasource.serieFinDeSemana(page: page);
+  Future<List<Tv>> serieFinDeSemana({int page = 1, String? watchProviderId,}) {
+    return tvDatasource.serieFinDeSemana(page: page, watchProviderId: watchProviderId);
   }
 
   @override

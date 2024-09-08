@@ -17,7 +17,7 @@ class TvMoviedbDatasource extends TvDatasource{
     }
   ));
 
-  List<Tv> _jsonToMovies(Map<String,dynamic> json) {
+  List<Tv> _jsonToTv(Map<String,dynamic> json) {
     final tvDbResponse = TvMovieDbResponse.fromJson(json);
 
     final List<Tv> tvs = tvDbResponse.results.map((tvdb) => TvMapper.tvDBToEntity(tvdb)).toList();
@@ -27,47 +27,63 @@ class TvMoviedbDatasource extends TvDatasource{
   }
 
   @override
-  Future<List<Tv>> getAiringToday({int page = 1}) async {
-    final response = await dio.get("/tv/airing_today",
-    queryParameters: {
-      'page': page
-    });
+Future<List<Tv>> getAiringToday({int page = 1, String? watchProviderId}) async {
+  final queryParameters = {
+    'page': page,
+    'region': 'ES',
+    if (watchProviderId != null) 'with_watch_providers': watchProviderId,
+    'watch_region': 'ES',
+  };
 
-    return _jsonToMovies(response.data);
-  }
+  final response = await dio.get("/discover/tv", queryParameters: queryParameters);
+
+  return _jsonToTv(response.data);
+}
+
+@override
+Future<List<Tv>> getOnTheAir({int page = 1, String? watchProviderId}) async {
+  final queryParameters = {
+    'page': page,
+    'region': 'ES',
+    if (watchProviderId != null) 'with_watch_providers': watchProviderId,
+    'watch_region': 'ES',
+  };
+
+  final response = await dio.get("/discover/tv", queryParameters: queryParameters);
+
+  return _jsonToTv(response.data);
+}
+
+@override
+Future<List<Tv>> getPopular({int page = 1, String? watchProviderId}) async {
+  final queryParameters = {
+    'page': page,
+    'region': 'ES',
+    if (watchProviderId != null) 'with_watch_providers': watchProviderId,
+    'watch_region': 'ES',
+  };
+
+  final response = await dio.get("/discover/tv", queryParameters: queryParameters);
+
+  return _jsonToTv(response.data);
+}
+
+@override
+Future<List<Tv>> getTopRated({int page = 1, String? watchProviderId}) async {
+  final queryParameters = {
+    'page': page,
+    'region': 'ES',
+    if (watchProviderId != null) 'with_watch_providers': watchProviderId,
+    'watch_region': 'ES',
+  };
+
+  final response = await dio.get("/discover/tv", queryParameters: queryParameters);
+
+  return _jsonToTv(response.data);
+}
 
   @override
-  Future<List<Tv>> getOnTheAir({int page = 1}) async {
-    final response = await dio.get("/tv/on_the_air",
-    queryParameters: {
-      'page': page
-    });
-
-    return _jsonToMovies(response.data);
-  }
-
-  @override
-  Future<List<Tv>> getPopular({int page = 1}) async {
-    final response = await dio.get("/tv/popular",
-    queryParameters: {
-      'page': page
-    });
-
-    return _jsonToMovies(response.data);
-  }
-
-  @override
-  Future<List<Tv>> getTopRated({int page = 1}) async {
-    final response = await dio.get("/tv/top_rated",
-    queryParameters: {
-      'page': page
-    });
-
-    return _jsonToMovies(response.data);
-  }
-
-  @override
-  Future<List<Tv>> serieFinDeSemana({int page = 1}) async {
+  Future<List<Tv>> serieFinDeSemana({int page = 1, String? watchProviderId,}) async {
     final response = await dio.get("/discover/tv",
     queryParameters: {
       'page': page,
@@ -77,7 +93,7 @@ class TvMoviedbDatasource extends TvDatasource{
       'sort_by': 'popularity.desc', // Ordena por popularidad
     });
 
-  return _jsonToMovies(response.data);
+  return _jsonToTv(response.data);
 }
 
   @override
