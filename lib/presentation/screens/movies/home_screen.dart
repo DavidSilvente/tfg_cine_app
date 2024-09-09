@@ -1,10 +1,13 @@
+import 'package:cine_tfg_app/presentation/providers/video/discover_provider.dart';
+import 'package:cine_tfg_app/presentation/screens/video/discover_screen.dart';
 import 'package:cine_tfg_app/presentation/views/views.dart';
+import 'package:cine_tfg_app/presentation/widgets/shared/shared.dart';
 import 'package:cine_tfg_app/presentation/widgets/shared/widgets/side_menu.dart';
-import 'package:cine_tfg_app/presentation/widgets/widgets.dart';
+import 'package:cine_tfg_app/presentation/widgets/shared/widgets/video_scrollable_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends StatefulWidget {
-
+class HomeScreen extends ConsumerStatefulWidget {
   static const name = 'home-screen';
   final int pageIndex;
 
@@ -14,12 +17,11 @@ class HomeScreen extends StatefulWidget {
   });
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-//* Este Mixin es necesario para mantener el estado en el PageView
-class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
-
+class _HomeScreenState extends ConsumerState<HomeScreen> with AutomaticKeepAliveClientMixin {
+  
   late PageController pageController;
 
   @override
@@ -35,36 +37,36 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     pageController.dispose();
     super.dispose();
   }
-  final viewRoutes =  const <Widget>[
-    HomeView(),
-    //PopularView(), // <--- categorias View
-    FavoritesView(),
-  ];
 
   @override
   Widget build(BuildContext context) {
-
-    final scaffoldKey = GlobalKey<ScaffoldState>();
-
     super.build(context);
 
-    if ( pageController.hasClients ) {
+    // Obtenemos los videos del estado de discoverProvider
+    final videos = ref.watch(discoverProvider).videos;
+
+    final viewRoutes = <Widget>[
+      const HomeView(),
+      DiscoverScreen(), // Pasamos los videos al VideoScrollableView
+      const FavoritesView(),
+    ];
+
+    if (pageController.hasClients) {
       pageController.animateToPage(
         widget.pageIndex, 
         curve: Curves.easeOut, 
-        duration: const Duration( milliseconds: 250)
+        duration: const Duration(milliseconds: 250)
       );
     }
 
     return Scaffold(
-      drawer: SideMenu(scaffoldKey: scaffoldKey),
+      drawer: SideMenu(scaffoldKey: GlobalKey<ScaffoldState>()),
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
-        // index: pageIndex,
         children: viewRoutes,
       ),
-      bottomNavigationBar: CustomBottomNavigation( 
+      bottomNavigationBar: CustomBottomNavigation(
         currentIndex: widget.pageIndex,
       ),
     );

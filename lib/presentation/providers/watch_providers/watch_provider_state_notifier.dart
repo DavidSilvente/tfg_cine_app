@@ -26,4 +26,11 @@ class SelectedProviderNotifier extends StateNotifier<String?> {
     state = providerId;
     await saveWatchProviderId(providerId); // Persiste el nuevo proveedor seleccionado
   }
+  Future<void> setDefaultProvider(String providerId) async {
+    if (state == null) {
+      state = providerId;
+      await saveWatchProviderId(providerId); // Guardar el proveedor por defecto seleccionado
+      print("Proveedor por defecto establecido: $providerId");
+    }
+  }
 }

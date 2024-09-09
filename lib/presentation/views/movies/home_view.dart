@@ -28,9 +28,9 @@ class HomeViewState extends ConsumerState<HomeView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    ref.listen<String?>(selectedWatchProviderIdProvider, (previous, next) {
+Widget build(BuildContext context) {
+  // Escuchar los cambios en el proveedor seleccionado
+  ref.listen<String?>(selectedWatchProviderIdProvider, (previous, next) {
     if (next != null && previous != next) {
       // Recargar las películas cuando cambie el proveedor
       ref.read(nowPlayingMoviesProvider.notifier).updateMovies(watchProviderId: next);
@@ -44,13 +44,25 @@ class HomeViewState extends ConsumerState<HomeView> {
     }
   });
 
-    final initialLoading = ref.watch(initialLoadingProvider);
-    if (initialLoading) return const FullScreenLoader();
-    
-    // Obtener el estado actual del Watch Provider seleccionado
-    final selectedWatchProviderId = ref.watch(selectedWatchProviderIdProvider);
-    // Obtener los Watch Providers disponibles
-    final watchProvidersAsync = ref.watch(watchProvidersProvider);
+  final initialLoading = ref.watch(initialLoadingProvider);
+  if (initialLoading) return const FullScreenLoader();
+
+  // Obtener el estado actual del Watch Provider seleccionado
+  final selectedWatchProviderId = ref.watch(selectedWatchProviderIdProvider);
+  // Obtener los Watch Providers disponibles
+  final watchProvidersAsync = ref.watch(watchProvidersProvider);
+
+  // Establecer el proveedor por defecto si no hay ninguno seleccionado
+  watchProvidersAsync.when(
+    data: (watchProviders) {
+      if (selectedWatchProviderId == null && watchProviders.isNotEmpty) {
+        final defaultProviderId = watchProviders.first.id.toString(); // Seleccionar el primero de la lista
+        ref.read(selectedWatchProviderIdProvider.notifier).setDefaultProvider(defaultProviderId);
+      }
+    },
+    loading: () => const CircularProgressIndicator(),
+    error: (err, stack) => Text('Error: $err'),
+  );
 
     // Obtener las películas para el slideshow y las que están en cines
     final slideShowMovies = ref.watch(moviesSlideshowProvider);
