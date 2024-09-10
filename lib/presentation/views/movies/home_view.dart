@@ -18,6 +18,20 @@ class HomeViewState extends ConsumerState<HomeView> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+    // Si no hay proveedor seleccionado, asigna el valor por defecto '8' y carga las películas
+    if (ref.read(selectedWatchProviderIdProvider) == null) {
+      const defaultProviderId = '8';  // Proveedor por defecto
+
+      // Actualiza el proveedor por defecto
+      ref.read(selectedWatchProviderIdProvider.notifier).setDefaultProvider(defaultProviderId);
+
+      // Cargar las películas correspondientes al proveedor por defecto
+      ref.read(nowPlayingMoviesProvider.notifier).updateMovies(watchProviderId: defaultProviderId);
+      ref.read(topRatedMoviesProvider.notifier).updateMovies(watchProviderId: defaultProviderId);
+      ref.read(upcomingMoviesProvider.notifier).updateMovies(watchProviderId: defaultProviderId);
+    }
+  });
   }
 
   // Método para alternar entre mostrar películas o series
@@ -44,25 +58,15 @@ Widget build(BuildContext context) {
     }
   });
 
-  final initialLoading = ref.watch(initialLoadingProvider);
-  if (initialLoading) return const FullScreenLoader();
+  
+
+  //final initialLoading = ref.watch(initialLoadingProvider);
+  //if (initialLoading) return const FullScreenLoader();
 
   // Obtener el estado actual del Watch Provider seleccionado
   final selectedWatchProviderId = ref.watch(selectedWatchProviderIdProvider);
   // Obtener los Watch Providers disponibles
   final watchProvidersAsync = ref.watch(watchProvidersProvider);
-
-  // Establecer el proveedor por defecto si no hay ninguno seleccionado
-  watchProvidersAsync.when(
-    data: (watchProviders) {
-      if (selectedWatchProviderId == null && watchProviders.isNotEmpty) {
-        final defaultProviderId = watchProviders.first.id.toString(); // Seleccionar el primero de la lista
-        ref.read(selectedWatchProviderIdProvider.notifier).setDefaultProvider(defaultProviderId);
-      }
-    },
-    loading: () => const CircularProgressIndicator(),
-    error: (err, stack) => Text('Error: $err'),
-  );
 
     // Obtener las películas para el slideshow y las que están en cines
     final slideShowMovies = ref.watch(moviesSlideshowProvider);
@@ -77,7 +81,7 @@ Widget build(BuildContext context) {
     final serieFinDeSemana = ref.watch(serieFinDeSemanaProvider);
 
     return Visibility(
-      visible: !initialLoading,
+      //visible: !initialLoading,
       child: CustomScrollView(
         slivers: [
           const SliverAppBar(
@@ -109,7 +113,7 @@ Widget build(BuildContext context) {
                           data: (watchProviders) {
                             return DropdownButton<String>(
                               hint: const Text("Selecciona un proveedor"),
-                              value: selectedWatchProviderId,
+                              value: selectedWatchProviderId ?? '8',
                               items: watchProviders.map((provider) {
                                 return DropdownMenuItem<String>(
                                   value: provider.id.toString(),

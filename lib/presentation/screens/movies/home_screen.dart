@@ -3,7 +3,6 @@ import 'package:cine_tfg_app/presentation/screens/video/discover_screen.dart';
 import 'package:cine_tfg_app/presentation/views/views.dart';
 import 'package:cine_tfg_app/presentation/widgets/shared/shared.dart';
 import 'package:cine_tfg_app/presentation/widgets/shared/widgets/side_menu.dart';
-import 'package:cine_tfg_app/presentation/widgets/shared/widgets/video_scrollable_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -41,9 +40,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with AutomaticKeepAlive
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
-    // Obtenemos los videos del estado de discoverProvider
-    final videos = ref.watch(discoverProvider).videos;
 
     final viewRoutes = <Widget>[
       const HomeView(),
