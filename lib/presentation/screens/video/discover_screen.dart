@@ -8,19 +8,20 @@ class DiscoverScreen extends ConsumerWidget {
   const DiscoverScreen({super.key});
 
   @override
-Widget build(BuildContext context, WidgetRef ref) {
-  final discoverState = ref.watch(discoverProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final discoverState = ref.watch(discoverProvider);
 
-  return Scaffold(
-    body: discoverState.initialLoading
-        ? const Center(child: CircularProgressIndicator(strokeWidth: 2))
-        : VideoScrollableView(videos: discoverState.videos),
-    floatingActionButton: FloatingActionButton(
-      onPressed: () {
-        ref.read(discoverProvider.notifier).loadNextPage('1022789');
-      },
-      child: Icon(Icons.refresh),
-    ),
-  );
-}
+    return Scaffold(
+      body: discoverState.initialLoading
+          ? const Center(child: CircularProgressIndicator(strokeWidth: 2))
+          : VideoScrollableView(videos: discoverState.videos),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Llamamos al método que carga las películas en cines y sus trailers
+          ref.read(discoverProvider.notifier).loadNowPlayingWithTrailers();
+        },
+        child: Icon(Icons.refresh),
+      ),
+    );
+  }
 }
