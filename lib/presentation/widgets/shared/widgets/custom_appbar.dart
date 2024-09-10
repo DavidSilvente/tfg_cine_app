@@ -1,5 +1,6 @@
 import 'package:cine_tfg_app/domain/entities/movie.dart';
 import 'package:cine_tfg_app/presentation/delegates/search_movie_delegate.dart';
+import 'package:cine_tfg_app/presentation/providers/person/search_person_provider.dart';
 import 'package:cine_tfg_app/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,25 +27,34 @@ class CustomAppbar extends ConsumerWidget {
               
               const Spacer(),
 
-              IconButton(onPressed:(){
+              IconButton(
+  onPressed: () {
+    final searchedMovies = ref.read(searchedMoviesProvider);
+    final searchQuery = ref.read(searchQueryProvider);
 
-                final searchedMovies = ref.read(searchedMoviesProvider);
-                final searchQuery = ref.read(searchQueryProvider);
+    final searchPersons = ref.read(searchedPersonProvider);
 
-                showSearch<Movie?>(
-                  query: searchQuery,
-                  context: context,
-                  delegate: SearchMovieDelegate(
-                    initialMovies: searchedMovies,
-                    searchMovies: ref.read(searchedMoviesProvider.notifier).searchMoviesByQuery
-                  )
-                ).then((movie) {
-                  if ( movie != null){
-                  context.push('/home/0/movie/${movie.id}');
-                }
-                });
-              }, icon: const Icon(Icons.search)
-              )
+    showSearch<Movie?>(
+      query: searchQuery,
+      context: context,
+      delegate: SearchMovieDelegate(
+        initialMovies: searchedMovies,
+        searchMovies: ref.read(searchedMoviesProvider.notifier).searchMoviesByQuery,
+        searchPersons: ref.read(searchedPersonProvider.notifier).searchPersonByQuery,
+        searchPersonMovies: ref.read(searchedPersonProvider.notifier).getMoviesByPerson, // Aquí pasamos el callback
+      ),
+    ).then((result) {
+      if (result is Movie) {
+        context.push('/home/0/movie/${result.id}');
+      } else if (result is List<Movie>) {
+        // Aquí manejas las películas del actor o director
+      }
+    });
+  },
+  icon: const Icon(Icons.search),
+)
+
+
             ],
           )
         ),

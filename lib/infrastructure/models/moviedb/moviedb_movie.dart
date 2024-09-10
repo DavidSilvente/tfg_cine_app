@@ -14,6 +14,8 @@ class MovieMovieDB {
         required this.video,
         required this.voteAverage,
         required this.voteCount,
+        this.character,
+        this.job
     });
 
     final bool adult;
@@ -30,6 +32,8 @@ class MovieMovieDB {
     final bool video;
     final double voteAverage;
     final int voteCount;
+    final String? character; // Campo adicional para los actores
+    final String? job;  
 
     factory MovieMovieDB.fromJson(Map<String, dynamic> json) => MovieMovieDB(
         adult: json["adult"] ?? false,
@@ -48,6 +52,8 @@ class MovieMovieDB {
         video: json["video"] ?? false,
         voteAverage: json["vote_average"]?.toDouble() ?? 0,
         voteCount: json["vote_count"] ?? 0,
+        character: json.containsKey('character') ? json['character'] : '', // Si es actor
+        job: json.containsKey('job') ? json['job'] : '', 
     );
 
     Map<String, dynamic> toJson() => {
@@ -67,5 +73,7 @@ class MovieMovieDB {
         "video": video,
         "vote_average": voteAverage,
         "vote_count": voteCount,
+        "character": character,
+        "job": job
     };
 }

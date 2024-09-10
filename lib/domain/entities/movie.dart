@@ -19,6 +19,8 @@ class Movie {
   final bool video;
   final double voteAverage;
   final int voteCount;
+  final String? character; // Campo adicional para los actores
+  final String? job;       // Campo adicional para el equipo (directores, etc.)
 
   Movie({
     required this.adult,
@@ -34,6 +36,8 @@ class Movie {
     required this.title,
     required this.video,
     required this.voteAverage,
-    required this.voteCount
+    required this.voteCount,
+    this.character,
+    this.job,
   });
 }
