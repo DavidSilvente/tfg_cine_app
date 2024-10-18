@@ -65,7 +65,7 @@ class SideMenuState extends ConsumerState<SideMenu> {
         ),
         const NavigationDrawerDestination(
           icon: Icon(Icons.movie_outlined),
-          label: Text('Películas'),
+          label: Text('Trailers'),
         ),
         const NavigationDrawerDestination(
           icon: Icon(Icons.tv_outlined),
@@ -86,6 +86,7 @@ class SideMenuState extends ConsumerState<SideMenu> {
               ref.read(authProvider.notifier).logout();
             },
             text: 'Cerrar sesión',
+            buttonColor:  const Color(0xFF334B4F),
           ),
         ),
       ],

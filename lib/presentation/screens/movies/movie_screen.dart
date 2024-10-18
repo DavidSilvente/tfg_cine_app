@@ -230,10 +230,6 @@ class _CustomSliverAppBar extends ConsumerWidget {
             loading: () => const CircularProgressIndicator(strokeWidth: 2,)
             )
         ),
-        IconButton(onPressed: () {
-
-        },
-        icon: const Icon(Icons.bookmark_border))
       ],
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.only(bottom: 0),

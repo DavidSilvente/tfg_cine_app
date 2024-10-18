@@ -37,7 +37,6 @@ class RegisterScreen extends StatelessWidget {
                       icon: const Icon( Icons.arrow_back_rounded, size: 40, color: Colors.white )
                     ),
                     const Spacer(flex: 1),
-                    Text('Crear cuenta', style: textStyles.titleLarge?.copyWith(color: Colors.white )),
                     const Spacer(flex: 2),
                   ],
                 ),
@@ -109,7 +108,7 @@ class _RegisterForm extends StatelessWidget {
             height: 60,
             child: CustomFilledButton(
               text: 'Crear',
-              buttonColor: Colors.black,
+              buttonColor: Color(0xFF334B4F),
               onPressed: (){
 
               },
@@ -130,7 +129,7 @@ class _RegisterForm extends StatelessWidget {
                   context.go('/login');
                   
                 }, 
-                child: const Text('Ingresa aquí')
+                child: const Text('Ingresa aquí', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))
               )
             ],
           ),

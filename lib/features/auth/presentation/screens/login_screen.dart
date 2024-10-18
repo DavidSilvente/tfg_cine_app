@@ -24,14 +24,7 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox( height: 80 ),
-                // Icon Banner
-                const Icon( 
-                  Icons.production_quantity_limits_rounded, 
-                  color: Colors.white,
-                  size: 100,
-                ),
-                const SizedBox( height: 80 ),
+                const SizedBox( height: 160 ),
     
                 Container(
                   height: size.height - 260, // 80 los dos sizebox y 100 el ícono
@@ -110,7 +103,7 @@ class _LoginForm extends ConsumerWidget {
             height: 60,
             child: CustomFilledButton(
               text: 'Ingresar',
-              buttonColor: Colors.black,
+              buttonColor: Color(0xFF334B4F),
               onPressed: (){
                 ref.read(loginFormProvider.notifier).onFormSubmit();
               },
@@ -125,7 +118,7 @@ class _LoginForm extends ConsumerWidget {
               const Text('¿No tienes cuenta?'),
               TextButton(
                 onPressed: ()=> context.push('/register'), 
-                child: const Text('Crea una aquí')
+                child: const Text('Crea una aquí', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))
               )
             ],
           ),

@@ -7,8 +7,6 @@ import 'package:cine_tfg_app/infrastructure/repositories/watch_provider_reposito
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Provider para el datasource
-// Provider para Dio
 final dioProvider = Provider<Dio>((ref) {
   return Dio(BaseOptions(
     baseUrl: "https://api.themoviedb.org/3",
@@ -19,20 +17,17 @@ final dioProvider = Provider<Dio>((ref) {
   ));
 });
 
-// Provider para el datasource
 final watchProviderDatasourceProvider = Provider<WatchProviderDatasource>((ref) {
   final dio = ref.watch(dioProvider);
-  return WatchProviderDatasourceImpl(dio); // Pasando el Dio como argumento
+  return WatchProviderDatasourceImpl(dio);
 });
 
-// Provider para el repositorio
 final watchProviderRepositoryProvider = Provider<WatchProviderRepository>((ref) {
   final watchProviderDatasource = ref.watch(watchProviderDatasourceProvider);
   return WatchProviderRepositoryImpl(watchProviderDatasource);
 });
 
 
-// Provider para obtener la lista de WatchProviders
 final watchProvidersProvider = FutureProvider<List<WatchProvider>>((ref) async {
   final watchProviderRepository = ref.watch(watchProviderRepositoryProvider);
   return watchProviderRepository.getWatchProviders('ES');

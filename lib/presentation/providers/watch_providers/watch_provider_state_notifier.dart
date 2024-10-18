@@ -15,21 +15,21 @@ class SelectedProviderNotifier extends StateNotifier<String?> {
   
 
   SelectedProviderNotifier(this.getWatchProviderId, this.saveWatchProviderId) : super(null) {
-    _loadInitialProvider(); // Cargar el estado inicial desde la persistencia
+    _loadInitialProvider();
   }
 
   Future<void> _loadInitialProvider() async {
-    state = await getWatchProviderId(); // Recupera el proveedor seleccionado anteriormente
+    state = await getWatchProviderId();
   }
 
   Future<void> updateProvider(String providerId) async {
     state = providerId;
-    await saveWatchProviderId(providerId); // Persiste el nuevo proveedor seleccionado
+    await saveWatchProviderId(providerId);
   }
   Future<void> setDefaultProvider(String providerId) async {
     if (state == null) {
       state = providerId;
-      await saveWatchProviderId(providerId); // Guardar el proveedor por defecto seleccionado
+      await saveWatchProviderId(providerId);
       print("Proveedor por defecto establecido: $providerId");
     }
   }

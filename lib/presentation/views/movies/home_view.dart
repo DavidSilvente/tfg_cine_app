@@ -107,7 +107,10 @@ Widget build(BuildContext context) {
                       children: [
                         ElevatedButton(
                           onPressed: toggleFilter,
-                          child: Text(showMovies ? 'Mostrar Series' : 'Mostrar Películas'),
+                          style: ElevatedButton.styleFrom(
+                            side: BorderSide(color: Colors.white, width: 1),
+  ),
+                          child: Text(showMovies ? 'Mostrar Series' : 'Mostrar Películas', style: TextStyle(color: Colors.white),),
                         ),
                         watchProvidersAsync.when(
                           data: (watchProviders) {

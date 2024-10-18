@@ -4,6 +4,7 @@ import 'package:cine_tfg_app/config/router/app_router.dart';
 import 'package:cine_tfg_app/config/theme/app_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:dcdg/dcdg.dart';
 
 
 Future<void> main() async {
